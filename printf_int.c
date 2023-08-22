@@ -1,56 +1,90 @@
 #include "main.h"
-
 /**
- * printf_int - Prints an integer.
- * @args: The va_list arguments.
- * 
- * Return: Number of digits printed.
+ * printf_int - prints integer
+ * @args: argument to print
+ * Return: number of characters printed
  */
 int printf_int(va_list args)
 {
-    int n = va_arg(args, int);
-    int num = n;
-    int digit, count = 0;
-    unsigned int num_abs;
+	int n = va_arg(args, int);
+	int num, last = n % 10, digit, exp = 1;
+	int  i = 1;
 
-    // If number is negative, print '-' and cast to positive.
-    if (num < 0)
-    {
-        _putchar('-');
-        num_abs = -num;
-    }
-    else
-    {
-        num_abs = num;
-    }
+	n = n / 10;
+	num = n;
 
-    if (num_abs == 0)
-    {
-        _putchar('0');
-        count++;
-    }
+	if (last < 0)
+	{
+		_putchar('-');
+		num = -num;
+		n = -n;
+		last = -last;
+		i++;
+	}
+	if (num > 0)
+	{
+		while (num / 10 != 0)
+		{
+			exp = exp * 10;
+			num = num / 10;
+		}
+		num = n;
+		while (exp > 0)
+		{
+			digit = num / exp;
+			_putchar(digit + '0');
+			num = num - (digit * exp);
+			exp = exp / 10;
+			i++;
+		}
+	}
+	_putchar(last + '0');
 
-    // Count the number of digits to print.
-    while (num != 0)
-    {
-        count++;
-        num /= 10;
-    }
-
-    // Recursive function to print the number
-    print_number(num_abs);
-
-    return count;
+	return (i);
 }
 
-void print_number(unsigned int n)
+/**
+ * printf_dec - prints decimal
+ * @args: argument to print
+ * Return: number of characters printed
+ */
+
+int printf_dec(va_list args)
 {
-    if (n == 0)
-        return;
+	int n = va_arg(args, int);
+	int num, last = n % 10, digit;
+	int  i = 1;
+	int exp = 1;
 
-    if (n / 10)
-        print_number(n / 10);
+	n = n / 10;
+	num = n;
 
-    _putchar((n % 10) + '0');
+	if (last < 0)
+	{
+		_putchar('-');
+		num = -num;
+		n = -n;
+		last = -last;
+		i++;
+	}
+	if (num > 0)
+	{
+		while (num / 10 != 0)
+		{
+			exp = exp * 10;
+			num = num / 10;
+		}
+		num = n;
+		while (exp > 0)
+		{
+			digit = num / exp;
+			_putchar(digit + '0');
+			num = num - (digit * exp);
+			exp = exp / 10;
+			i++;
+		}
+	}
+	_putchar(last + '0');
+
+	return (i);
 }
-
